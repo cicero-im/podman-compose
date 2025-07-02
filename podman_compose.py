@@ -18,7 +18,6 @@ import hashlib
 import json
 import logging
 import os
-import random
 import re
 import shlex
 import signal
@@ -38,6 +37,7 @@ from typing import overload
 # fnmatch.fnmatchcase(env, "*_HOST")
 import yaml
 from dotenv import dotenv_values
+import secrets
 
 __version__ = "1.4.0"
 
@@ -3418,7 +3418,7 @@ def compose_run_update_container_from_args(
     compose: PodmanCompose, cnt: dict, args: argparse.Namespace
 ) -> None:
     # adjust one-off container options
-    name0 = compose.format_name(args.service, f'tmp{random.randrange(0, 65536)}')
+    name0 = compose.format_name(args.service, f'tmp{secrets.SystemRandom().randrange(0, 65536)}')
     cnt["name"] = args.name or name0
     if args.entrypoint:
         cnt["entrypoint"] = args.entrypoint
